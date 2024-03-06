@@ -22,12 +22,12 @@ module.exports = {
   ],
   deploy: {
     production: {
-      key: './test-task-store.pem',
+      key: './test-task.pem',
       user: 'ubuntu',
-      host: 'ec2-13-49-103-228.eu-north-1.compute.amazonaws.com',
+      host: 'ec2-35-178-137-158.eu-west-2.compute.amazonaws.com',
       ssh_options: 'StrictHostKeyChecking=no',
       ref: 'origin/main',
-      repo: 'git@github.com:dmitrygorbatikov/test-api-assignment.git',
+      repo: 'git@github.com:dmitrygorbatikov/test-task-abz-agency.git',
       path: '/home/ubuntu/app',
       'post-deploy': commands.join(' && '),
     },
