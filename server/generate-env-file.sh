@@ -1,7 +1,7 @@
 #!/bin/bash
 
 AWS_SECRET_ID="test-task-store-secrets"
-AWS_REGION="eu-north-1"
+AWS_REGION="eu-west-2"
 ENVFILE="./.env"
 
 # Export the secret to .env
