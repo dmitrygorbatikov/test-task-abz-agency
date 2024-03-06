@@ -3,7 +3,7 @@ import {
   generateRandomEmail,
   generateRandomName,
   generateRandomPhoneNumber,
-} from '../src/helpers/seed';
+} from '../../helpers/seed';
 import * as jwt from 'jsonwebtoken';
 import process from 'process';
 
@@ -41,7 +41,7 @@ const tokensData = Array.from({ length: 45 }).map(() => {
   };
 });
 
-async function seed() {
+async function prismaSeed() {
   for (const position of positionsData) {
     const candidate = await prisma.position.findUnique({
       where: { name: position.name },
@@ -86,7 +86,7 @@ async function seed() {
   console.log('Seed completed');
 }
 
-seed()
+prismaSeed()
   .catch((e) => {
     throw e;
   })
