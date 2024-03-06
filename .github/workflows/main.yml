@@ -1,0 +1,40 @@
+name: deploy
+
+on:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: Prepare to build
+        run: cd ./client && cp .env.production .env
+
+      - name: Build React App
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
+        run: cd ./client && npm i && npm run build
+
+      - name: Deploy app build to S3 bucket
+        run: aws s3 sync ./client/dist/ s3://${{secrets.S3_BUCKET}} --delete
+
+      - name: Clear CloudFront cache
+        run: aws cloudfront create-invalidation --distribution-id E282OAB82MEE1 --paths "/*"
+
+      - uses: actions/checkout@v2
+      - name: Setup SSH and deploy backend
+        run: |
+          npm install pm2 -g
+          echo $SSH_KEY | base64 --decode > ./server/test-task-store.pem
+          chmod 600 ./server/test-task-store.pem
+          cd ./server && pm2 deploy production
+        shell: bash
+        env:
+          SSH_KEY: ${{secrets.SSH_KEY}}
