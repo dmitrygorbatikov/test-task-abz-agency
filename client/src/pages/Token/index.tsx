@@ -5,7 +5,8 @@ import { useEffect, useState } from "react"
 import { tokenAPI } from "../../services/token"
 import { setQuery, setTokens } from "../../store/token/tokenSlice.ts"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { Link } from "react-router-dom"
+import { TopCreateHeaderLink } from "../../components/TopCreateHeaderLink"
+import toastr from "toastr"
 
 const Token = () => {
   const dispatch = useDispatch()
@@ -14,9 +15,13 @@ const Token = () => {
   const [hasMore, setHasMore] = useState(true)
 
   const handleFetchTokens = async () => {
-    await fetchTokens({}).then(({ data }) => {
-      dispatch(setTokens({ ...data }))
-    })
+    await fetchTokens({})
+      .then(({ data }) => {
+        dispatch(setTokens({ ...data }))
+      })
+      .catch((error) => {
+        toastr.error(error.data.error)
+      })
   }
 
   const fetchMoreTokens = async () => {
@@ -32,29 +37,25 @@ const Token = () => {
 
           setHasMore(data.page * data.perPage < data.totalCount)
         })
+        .catch((error) => {
+          toastr.error(error.data.error)
+        })
     } catch (error) {
       console.error("Error fetching more posts")
     }
   }
 
   useEffect(() => {
-    handleFetchTokens().then()
+    handleFetchTokens().catch((error) => {
+      toastr.error(error.data.error)
+    })
   }, [])
   if (isLoading) {
     return <h1>Loading ...</h1>
   }
   return (
-    <div className="container mx-auto p-8">
-      <div className=" flex justify-between items-center">
-        <h2 className="m-0 p-0 text-3xl font-bold">Tokens</h2>
-        <div className="flex items-center">
-          <Link to="/tokens/create">
-            <span className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition duration-300">
-              Create
-            </span>
-          </Link>
-        </div>
-      </div>
+    <div>
+      <TopCreateHeaderLink link={"/tokens/create"} title={"Tokens"} />
 
       <InfiniteScroll
         dataLength={tokens.length}

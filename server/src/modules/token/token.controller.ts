@@ -25,15 +25,7 @@ export class TokenController {
     return this.tokenService.verifyToken(+id);
   }
   @Cron(CronExpression.EVERY_MINUTE)
-  async validateTokens() {
-    const validTokens = await this.tokenService.getAllValidTokens();
-
-    await Promise.all(
-      validTokens.map(async (token) => {
-        return await this.tokenService.validateToken(token);
-      }),
-    );
-
-    console.log('Token check complete.');
+  async checkTokenValidation() {
+    return await this.tokenService.checkTokenValidation()
   }
 }

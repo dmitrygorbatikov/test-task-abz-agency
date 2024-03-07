@@ -11,6 +11,8 @@ import { TextField } from "./components/TextField.tsx"
 import { SelectField } from "./components/SelectField.tsx"
 import { ImageField } from "./components/ImageField.tsx"
 import toastr from "toastr"
+import { SubmitButton } from "../../components/SubmitButton"
+import { CancelButton } from "../../components/CancelButton"
 export const CreateUserForm: FC = () => {
   const dispatch = useDispatch()
   const [createUser] = usersAPI.useCreateUserMutation()
@@ -35,10 +37,16 @@ export const CreateUserForm: FC = () => {
       })
   }
 
+  const handleCancel = () => navigate("/users")
+
   useEffect(() => {
-    fetchPositions(null).then(({ data }) => {
-      dispatch(setPositions(data))
-    })
+    fetchPositions(null)
+      .then(({ data }) => {
+        dispatch(setPositions(data))
+      })
+      .catch((error) => {
+        toastr.error(error.data.error)
+      })
   }, [])
 
   watch()
@@ -57,26 +65,16 @@ export const CreateUserForm: FC = () => {
       />
       <ImageField fieldName="photo" label="Photo" />
 
-      <button
-        type="submit"
-        className={`bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition duration-300 ${
-          isLoading ? "cursor-not-allowed opacity-50" : ""
-        }`}
-        disabled={isLoading}
-      >
-        {isLoading ? "Creating..." : "Create Post"}
-      </button>
-
-      <button
-        onClick={() => navigate("/users")}
-        type="button"
-        className={`ml-2 bg-gray-500 text-white p-2 rounded hover:bg-gray-700 transition duration-300 ${
-          isLoading ? "cursor-not-allowed opacity-50" : ""
-        }`}
-        disabled={isLoading}
-      >
-        Cancel
-      </button>
+      <SubmitButton
+        isLoading={isLoading}
+        type={"submit"}
+        title={isLoading ? "Creating..." : "Create User"}
+      />
+      <CancelButton
+        isLoading={isLoading}
+        onClick={handleCancel}
+        title={"Cancel"}
+      />
     </form>
   )
 }

@@ -4,6 +4,7 @@ import { usersAPI } from "../../services/user"
 import { useStoreSelector } from "../../store"
 import { useDispatch } from "react-redux"
 import { setDetailUser } from "../../store/user/userSlice.ts"
+import toastr from "toastr"
 const UserDetails = () => {
   const { userId } = useParams()
   const dispatch = useDispatch()
@@ -17,16 +18,20 @@ const UserDetails = () => {
 
   useEffect(() => {
     if (userId) {
-      fetchUserById({ userId: +userId }).then(({ data }) => {
-        dispatch(setDetailUser(data))
-      })
+      fetchUserById({ userId: +userId })
+        .then(({ data }) => {
+          dispatch(setDetailUser(data))
+        })
+        .catch((error) => {
+          toastr.error(error.data.error)
+        })
     }
   }, [userId])
   if (isLoading) {
     return <h1>Loading...</h1>
   }
   return (
-    <div className="container mx-auto mt-8">
+    <div>
       <button
         onClick={handleGoBack}
         className="p-2 bg-gray-500 text-white rounded mb-4"

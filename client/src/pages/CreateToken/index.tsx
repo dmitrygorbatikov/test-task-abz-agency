@@ -20,7 +20,7 @@ const CreateToken: FC = () => {
   }, [])
 
   return (
-    <div className="container mx-auto p-8">
+    <div>
       <h1 className="text-3xl font-bold mb-8">Create new Token</h1>
       <FormProvider {...methods}>
         <CreateTokenForm />

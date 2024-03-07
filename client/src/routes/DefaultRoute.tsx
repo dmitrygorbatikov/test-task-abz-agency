@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom"
 
 export const DefaultRoute = () => {
   return (
-    <>
+    <div>
       <nav className="bg-gray-800 p-4">
         <div className="container mx-auto flex justify-between items-center">
           <div className="text-white font-bold text-xl">
@@ -31,7 +31,9 @@ export const DefaultRoute = () => {
           </div>
         </div>
       </nav>
-      <Outlet />
-    </>
+      <div className="container mx-auto p-8">
+        <Outlet />
+      </div>
+    </div>
   )
 }

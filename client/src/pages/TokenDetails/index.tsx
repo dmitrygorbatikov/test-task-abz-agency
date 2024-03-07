@@ -4,6 +4,7 @@ import { useStoreSelector } from "../../store"
 import { useDispatch } from "react-redux"
 import { tokenAPI } from "../../services/token"
 import { setDetailToken } from "../../store/token/tokenSlice.ts"
+import toastr from "toastr"
 const TokenDetails = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
@@ -21,10 +22,14 @@ const TokenDetails = () => {
 
   const handleVerifyToken = async () => {
     if (id) {
-      verifyToken({ id: +id }).then(({ data }) => {
-        setTokenData(data)
-        setShow(true)
-      })
+      verifyToken({ id: +id })
+        .then(({ data }) => {
+          setTokenData(data)
+          setShow(true)
+        })
+        .catch((error) => {
+          toastr.error(error.data.error)
+        })
     }
     setDisabled(true)
   }
@@ -41,16 +46,20 @@ const TokenDetails = () => {
 
   useEffect(() => {
     if (id) {
-      fetchTokenById({ id: +id }).then(({ data }) => {
-        dispatch(setDetailToken(data))
-      })
+      fetchTokenById({ id: +id })
+        .then(({ data }) => {
+          dispatch(setDetailToken(data))
+        })
+        .catch((error) => {
+          toastr.error(error.data.error)
+        })
     }
   }, [id])
   if (isLoading || verifyTokenLoading) {
     return <h1>Loading...</h1>
   }
   return (
-    <div className="container mx-auto mt-8">
+    <div>
       <button
         onClick={handleGoBack}
         className="p-2 bg-gray-500 text-white rounded mb-4"

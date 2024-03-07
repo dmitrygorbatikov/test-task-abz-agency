@@ -2,13 +2,16 @@ import { usersAPI } from "../../services/user"
 import { useEffect } from "react"
 import SearchUsers from "./SearchUsers.tsx"
 import UsersSortBar from "./UsersSortBar.tsx"
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { setUsers } from "../../store/user/userSlice.ts"
 import { useStoreSelector } from "../../store"
 import { generateQueryString } from "../../helpers/functions.ts"
 import UsersPagination from "./UsersPagination.tsx"
-import { UsersTable } from "./UsersTable.tsx"
+import { TopCreateHeaderLink } from "../../components/TopCreateHeaderLink"
+import { Table } from "../../components/Table"
+import { HeaderTypeEnum, IHeaderValue } from "../../components/Table/types.ts"
+import toastr from "toastr"
 
 const Users = () => {
   const dispatch = useDispatch()
@@ -43,35 +46,61 @@ const Users = () => {
       ...params,
       ...additionalParams,
     }
-    await fetchUsers(body).then(({ data }) => {
-      if (!data?.users?.length && body.page > 1) {
-        body.page = 1
-        fetchUsers(body).then((res) => {
-          dispatch(setUsers({ ...res.data, query: body }))
-        })
-      } else {
-        dispatch(setUsers({ ...data, query: body }))
-      }
-    })
+    await fetchUsers(body)
+      .then(({ data }) => {
+        if (!data?.users?.length && body.page > 1) {
+          body.page = 1
+          fetchUsers(body)
+            .then((res) => {
+              dispatch(setUsers({ ...res.data, query: body }))
+            })
+            .catch((error) => {
+              toastr.error(error.data.error)
+            })
+        } else {
+          dispatch(setUsers({ ...data, query: body }))
+        }
+      })
+      .catch((error) => {
+        toastr.error(error.data.error)
+      })
     navigate(`/users?${generateQueryString(body)}`)
   }
 
+  const handleCeilClick = (id: number) => navigate(`/users/list/${id}`)
+
+  const header: Record<string, IHeaderValue> = {
+    id: { name: "Id", onClick: handleCeilClick },
+    photo: {
+      name: "Photo",
+      type: HeaderTypeEnum.image,
+      onClick: handleCeilClick,
+    },
+    name: { name: "Name", onClick: handleCeilClick },
+    position: { name: "Position", onClick: handleCeilClick },
+    email: { name: "Email", onClick: handleCeilClick },
+    phone: { name: "Phone", onClick: handleCeilClick },
+    created_at: {
+      name: "Created At",
+      type: HeaderTypeEnum.date,
+      onClick: handleCeilClick,
+    },
+  }
+
+  const data = {
+    header,
+    list: users,
+  }
+
   useEffect(() => {
-    handleSearch({}).then()
+    handleSearch({}).catch((error) => {
+      toastr.error(error.data.error)
+    })
   }, [])
 
   return (
-    <div className="container mx-auto p-8">
-      <div className=" flex justify-between items-center">
-        <h2 className="m-0 p-0 text-3xl font-bold">Users</h2>
-        <div className="flex items-center">
-          <Link to="/users/create">
-            <span className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700 transition duration-300">
-              Create
-            </span>
-          </Link>
-        </div>
-      </div>
+    <div>
+      <TopCreateHeaderLink link={"/users/create"} title={"Users"} />
 
       <div className="flex justify-between items-center mt-10">
         <SearchUsers
@@ -80,7 +109,7 @@ const Users = () => {
         />
         <UsersSortBar handleSearch={handleSearch} />
       </div>
-      <UsersTable users={users} />
+      <Table data={data} />
       <UsersPagination
         totalCount={totalCount}
         page={query?.page ? +query?.page : 1}

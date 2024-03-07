@@ -1,16 +1,14 @@
 // vite.config.ts
-import { defineConfig } from "file:///home/dmitry/WebstormProjects/test-api-assignment/client/node_modules/vite/dist/node/index.js";
-import react from "file:///home/dmitry/WebstormProjects/test-api-assignment/client/node_modules/@vitejs/plugin-react/dist/index.mjs";
-import tailwindcss from "file:///home/dmitry/WebstormProjects/test-api-assignment/client/node_modules/tailwindcss/lib/index.js";
+import { defineConfig } from "file:///home/dmitry/WebstormProjects/test-api-assignment/client/node_modules/vite/dist/node/index.js"
+import react from "file:///home/dmitry/WebstormProjects/test-api-assignment/client/node_modules/@vitejs/plugin-react/dist/index.mjs"
+import tailwindcss from "file:///home/dmitry/WebstormProjects/test-api-assignment/client/node_modules/tailwindcss/lib/index.js"
 var vite_config_default = defineConfig({
   plugins: [react()],
   css: {
     postcss: {
-      plugins: [tailwindcss()]
-    }
-  }
-});
-export {
-  vite_config_default as default
-};
+      plugins: [tailwindcss()],
+    },
+  },
+})
+export { vite_config_default as default }
 //# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsidml0ZS5jb25maWcudHMiXSwKICAic291cmNlc0NvbnRlbnQiOiBbImNvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9kaXJuYW1lID0gXCIvaG9tZS9kbWl0cnkvV2Vic3Rvcm1Qcm9qZWN0cy90ZXN0LWFwaS1hc3NpZ25tZW50L2NsaWVudFwiO2NvbnN0IF9fdml0ZV9pbmplY3RlZF9vcmlnaW5hbF9maWxlbmFtZSA9IFwiL2hvbWUvZG1pdHJ5L1dlYnN0b3JtUHJvamVjdHMvdGVzdC1hcGktYXNzaWdubWVudC9jbGllbnQvdml0ZS5jb25maWcudHNcIjtjb25zdCBfX3ZpdGVfaW5qZWN0ZWRfb3JpZ2luYWxfaW1wb3J0X21ldGFfdXJsID0gXCJmaWxlOi8vL2hvbWUvZG1pdHJ5L1dlYnN0b3JtUHJvamVjdHMvdGVzdC1hcGktYXNzaWdubWVudC9jbGllbnQvdml0ZS5jb25maWcudHNcIjtpbXBvcnQgeyBkZWZpbmVDb25maWcgfSBmcm9tIFwidml0ZVwiXG5pbXBvcnQgcmVhY3QgZnJvbSBcIkB2aXRlanMvcGx1Z2luLXJlYWN0XCJcbmltcG9ydCB0YWlsd2luZGNzcyBmcm9tIFwidGFpbHdpbmRjc3NcIlxuXG5leHBvcnQgZGVmYXVsdCBkZWZpbmVDb25maWcoe1xuICBwbHVnaW5zOiBbcmVhY3QoKV0sXG4gIGNzczoge1xuICAgIHBvc3Rjc3M6IHtcbiAgICAgIHBsdWdpbnM6IFt0YWlsd2luZGNzcygpXSxcbiAgICB9LFxuICB9LFxufSlcbiJdLAogICJtYXBwaW5ncyI6ICI7QUFBMFYsU0FBUyxvQkFBb0I7QUFDdlgsT0FBTyxXQUFXO0FBQ2xCLE9BQU8saUJBQWlCO0FBRXhCLElBQU8sc0JBQVEsYUFBYTtBQUFBLEVBQzFCLFNBQVMsQ0FBQyxNQUFNLENBQUM7QUFBQSxFQUNqQixLQUFLO0FBQUEsSUFDSCxTQUFTO0FBQUEsTUFDUCxTQUFTLENBQUMsWUFBWSxDQUFDO0FBQUEsSUFDekI7QUFBQSxFQUNGO0FBQ0YsQ0FBQzsiLAogICJuYW1lcyI6IFtdCn0K

@@ -3,9 +3,8 @@ import {
   generateRandomEmail,
   generateRandomName,
   generateRandomPhoneNumber,
-} from '../../helpers/seed';
+} from '../../helpers/functions';
 import * as jwt from 'jsonwebtoken';
-import process from 'process';
 
 const prisma = new PrismaClient();
 
