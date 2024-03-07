@@ -1,4 +1,3 @@
-import { TokensTable } from "./TokensTable.tsx"
 import { useDispatch } from "react-redux"
 import { useStoreSelector } from "../../store"
 import { useEffect, useState } from "react"
