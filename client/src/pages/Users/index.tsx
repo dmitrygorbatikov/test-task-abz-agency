@@ -59,7 +59,7 @@ const Users = () => {
       onClick: handleCeilClick,
     },
     name: { name: "Name", onClick: handleCeilClick },
-    position: { name: "Position", onClick: handleCeilClick },
+    position_name: { name: "Position", onClick: handleCeilClick },
     email: { name: "Email", onClick: handleCeilClick },
     phone: { name: "Phone", onClick: handleCeilClick },
     created_at: {
