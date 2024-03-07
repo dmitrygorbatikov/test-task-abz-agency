@@ -1,8 +1,6 @@
 export enum E_ErrorMessage {
-  required = "required",
-  format = "format",
-  number = "number",
-  email = "email",
+  required = "This field is required",
+  format = "Incorrect format",
 }
 
 export const regExp = {

@@ -76,7 +76,7 @@ export class UserService {
       });
       if (!position) {
         throw new HttpException(
-          { error: 'Position not found' },
+          { error: ErrorsEnum.positionNotFound },
           HttpStatus.BAD_REQUEST,
         );
       }
@@ -91,7 +91,8 @@ export class UserService {
       return { user };
     }
     catch (e) {
-      throw new HttpException({error: e.message}, HttpStatus.BAD_REQUEST)
+      console.log(e.response.error)
+      throw new HttpException({error: e?.response?.error || e.message}, HttpStatus.BAD_REQUEST)
     }
   }
 

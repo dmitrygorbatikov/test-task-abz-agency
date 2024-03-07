@@ -23,7 +23,9 @@ const TokenDetails = () => {
   const handleVerifyToken = async () => {
     if (id) {
       verifyToken({ id: +id })
-        .then(({ data }) => {
+        .unwrap()
+
+        .then((data ) => {
           setTokenData(data)
           setShow(true)
         })
@@ -47,7 +49,9 @@ const TokenDetails = () => {
   useEffect(() => {
     if (id) {
       fetchTokenById({ id: +id })
-        .then(({ data }) => {
+        .unwrap()
+
+        .then((data ) => {
           dispatch(setDetailToken(data))
         })
         .catch((error) => {

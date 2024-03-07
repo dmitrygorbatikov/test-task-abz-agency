@@ -18,11 +18,19 @@ export const TableBody: FC<ITableBodyProps> = ({ data }) => {
               case HeaderTypeEnum.date:
                 ceilResult = formatDateTime(data.list[index][key])
                 break
+              case HeaderTypeEnum.is_valid:
+                const is_valid = !!data.list[index][key]
+                ceilResult = <span className={`${is_valid ? "text-green-500" : "text-red-500"}`}>{is_valid ? "Yes" : "No"}</span>
+                break
+              case HeaderTypeEnum.token:
+                const value = data.list[index][key]
+                ceilResult = value.length > 50 ? `${value.substring(0, 50)}...` : value
+                break
               case HeaderTypeEnum.image:
                 ceilResult = (
                   <img
                     src={data.list[index][key]}
-                    alt={data.list[index][key]}
+                    alt={'avatar'}
                     className="w-12 h-12 object-cover rounded-full"
                   />
                 )

@@ -19,7 +19,9 @@ const UserDetails = () => {
   useEffect(() => {
     if (userId) {
       fetchUserById({ userId: +userId })
-        .then(({ data }) => {
+        .unwrap()
+
+        .then((data) => {
           dispatch(setDetailUser(data))
         })
         .catch((error) => {

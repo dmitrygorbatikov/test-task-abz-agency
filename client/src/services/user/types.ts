@@ -1,9 +1,9 @@
 export interface IGetUsersRequest {
-  q?: string
-  sortBy?: string
-  sortItem?: string
-  page?: string
-  perPage?: string
+  q?: string | null | undefined
+  sortBy?: string | null | undefined
+  sortItem?: string | null | undefined
+  page?: string | null | undefined
+  perPage?: string | null | undefined
 }
 
 export interface IGetUsersResponse {

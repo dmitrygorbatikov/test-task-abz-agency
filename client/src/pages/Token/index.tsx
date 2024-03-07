@@ -7,16 +7,22 @@ import { setQuery, setTokens } from "../../store/token/tokenSlice.ts"
 import InfiniteScroll from "react-infinite-scroll-component"
 import { TopCreateHeaderLink } from "../../components/TopCreateHeaderLink"
 import toastr from "toastr"
+import { HeaderTypeEnum, IHeaderValue } from "../../components/Table/types.ts"
+import { Table } from "../../components/Table"
+import { useNavigate } from "react-router-dom"
 
 const Token = () => {
   const dispatch = useDispatch()
   const [fetchTokens, { isLoading }] = tokenAPI.useLazyFetchTokensQuery()
   const { tokens, query } = useStoreSelector((state) => state.token)
   const [hasMore, setHasMore] = useState(true)
+  const navigate = useNavigate()
 
   const handleFetchTokens = async () => {
     await fetchTokens({})
-      .then(({ data }) => {
+      .unwrap()
+
+      .then((data) => {
         dispatch(setTokens({ ...data }))
       })
       .catch((error) => {
@@ -31,18 +37,39 @@ const Token = () => {
         page: newPage,
       })
         .unwrap()
-        .then((data) => {
+        .then((data ) => {
           dispatch(setTokens({ tokens: [...tokens, ...(data?.tokens ?? [])] }))
           dispatch(setQuery({ page: newPage }))
 
           setHasMore(data.page * data.perPage < data.totalCount)
         })
         .catch((error) => {
+          console.log(error)
           toastr.error(error.data.error)
         })
     } catch (error) {
       console.error("Error fetching more posts")
     }
+  }
+  const handleCeilClick = (id: number) =>   navigate(`/tokens/list/${id}`)
+
+
+  const header: Record<string, IHeaderValue> = {
+    id: { name: "Id", onClick: handleCeilClick },
+    value: { name: "Value", type: HeaderTypeEnum.token, onClick: handleCeilClick },
+    is_valid: { name: "Is valid",
+      type: HeaderTypeEnum.is_valid,
+      onClick: handleCeilClick },
+    created_at: {
+      name: "Created At",
+      type: HeaderTypeEnum.date,
+      onClick: handleCeilClick,
+    },
+  }
+
+  const data = {
+    header,
+    list: tokens,
   }
 
   useEffect(() => {
@@ -68,7 +95,7 @@ const Token = () => {
           </div>
         }
       >
-        <TokensTable tokens={tokens} />
+        <Table data={data} />
       </InfiniteScroll>
     </div>
   )

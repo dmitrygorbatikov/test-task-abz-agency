@@ -17,4 +17,6 @@ export enum HeaderTypeEnum {
   text = "text",
   image = "image",
   date = "date",
+  is_valid = "is_valid",
+  token = "token",
 }

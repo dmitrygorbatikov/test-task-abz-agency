@@ -33,6 +33,8 @@ export const CreateUserForm: FC = () => {
         navigate("/users?sortBy=desc&sortItem=created_at")
       })
       .catch((error) => {
+        console.log(error)
+
         toastr.error(error.data.error)
       })
   }
@@ -41,7 +43,8 @@ export const CreateUserForm: FC = () => {
 
   useEffect(() => {
     fetchPositions(null)
-      .then(({ data }) => {
+      .unwrap()
+      .then((data ) => {
         dispatch(setPositions(data))
       })
       .catch((error) => {

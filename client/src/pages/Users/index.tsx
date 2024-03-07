@@ -21,50 +21,32 @@ const Users = () => {
   const navigate = useNavigate()
   const queryParams = new URLSearchParams(location.search)
   const handleSearch = async (additionalParams: Object) => {
-    const params: any = {}
-    const q = queryParams.get("q")
-    const sortBy = queryParams.get("sortBy")
-    const sortItem = queryParams.get("sortItem")
-    const page = queryParams.get("page")
-    const perPage = queryParams.get("perPage")
-    if (q) {
-      params.q = q
-    }
-    if (sortBy) {
-      params.sortBy = sortBy
-    }
-    if (sortItem) {
-      params.sortItem = sortItem
-    }
-    if (page) {
-      params.page = page
-    }
-    if (perPage) {
-      params.perPage = perPage
-    }
-    const body = {
-      ...params,
+    const params = {
+      q: queryParams.get("q"),
+      sortBy: queryParams.get("sortBy"),
+      sortItem: queryParams.get("sortItem"),
+      page: queryParams.get("page"),
+      perPage: queryParams.get("perPage"),
       ...additionalParams,
     }
-    await fetchUsers(body)
-      .then(({ data }) => {
-        if (!data?.users?.length && body.page > 1) {
-          body.page = 1
-          fetchUsers(body)
+    await fetchUsers(params)
+      .unwrap()
+      .then((data) => {
+        if (!data?.users?.length && params.page && +params.page > 1) {
+          params.page = '1'
+          fetchUsers(params)
+            .unwrap()
             .then((res) => {
-              dispatch(setUsers({ ...res.data, query: body }))
-            })
-            .catch((error) => {
-              toastr.error(error.data.error)
+              dispatch(setUsers({ ...res, query: params }))
             })
         } else {
-          dispatch(setUsers({ ...data, query: body }))
+          dispatch(setUsers({ ...data, query: params }))
         }
       })
       .catch((error) => {
         toastr.error(error.data.error)
       })
-    navigate(`/users?${generateQueryString(body)}`)
+    navigate(`/users?${generateQueryString(params)}`)
   }
 
   const handleCeilClick = (id: number) => navigate(`/users/list/${id}`)
@@ -93,9 +75,7 @@ const Users = () => {
   }
 
   useEffect(() => {
-    handleSearch({}).catch((error) => {
-      toastr.error(error.data.error)
-    })
+    handleSearch({}).then()
   }, [])
 
   return (

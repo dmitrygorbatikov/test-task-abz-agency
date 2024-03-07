@@ -26,7 +26,9 @@ const Positions = () => {
 
   useEffect(() => {
     fetchPositions(null)
-      .then(({ data }) => {
+      .unwrap()
+
+      .then((data ) => {
         dispatch(setPositions(data))
       })
       .catch((error) => {

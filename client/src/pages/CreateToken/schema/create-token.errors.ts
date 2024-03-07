@@ -1,3 +1,3 @@
 export enum E_ErrorMessage {
-  required = "required",
+  required = "This field is required",
 }
