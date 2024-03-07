@@ -4,5 +4,6 @@ export enum ErrorsEnum {
   userExist = 'User already exist',
   userNotFound = 'User not found',
   positionNotFound = 'Position not found',
+  positionsNotFound = 'Positions not found',
   tokenUsed = 'Token already used'
 }
