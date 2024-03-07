@@ -36,7 +36,7 @@ const Token = () => {
         page: newPage,
       })
         .unwrap()
-        .then((data ) => {
+        .then((data) => {
           dispatch(setTokens({ tokens: [...tokens, ...(data?.tokens ?? [])] }))
           dispatch(setQuery({ page: newPage }))
 
@@ -50,15 +50,20 @@ const Token = () => {
       console.error("Error fetching more posts")
     }
   }
-  const handleCeilClick = (id: number) =>   navigate(`/tokens/list/${id}`)
-
+  const handleCeilClick = (id: number) => navigate(`/tokens/list/${id}`)
 
   const header: Record<string, IHeaderValue> = {
     id: { name: "Id", onClick: handleCeilClick },
-    value: { name: "Value", type: HeaderTypeEnum.token, onClick: handleCeilClick },
-    is_valid: { name: "Is valid",
+    value: {
+      name: "Value",
+      type: HeaderTypeEnum.token,
+      onClick: handleCeilClick,
+    },
+    is_valid: {
+      name: "Is valid",
       type: HeaderTypeEnum.is_valid,
-      onClick: handleCeilClick },
+      onClick: handleCeilClick,
+    },
     created_at: {
       name: "Created At",
       type: HeaderTypeEnum.date,

@@ -2,7 +2,7 @@ import { FC, useState } from "react"
 
 const UsersSortBar: FC<{ handleSearch: any }> = ({ handleSearch }) => {
   const [sortItemValue, setSortItemValue] = useState("created_at")
-  const [sortByValue, setSortByValue] = useState("desc")
+  const [sortByValue, setSortByValue] = useState("asc")
 
   return (
     <div className="flex items-center">

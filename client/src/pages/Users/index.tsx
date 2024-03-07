@@ -33,7 +33,7 @@ const Users = () => {
       .unwrap()
       .then((data) => {
         if (!data?.users?.length && params.page && +params.page > 1) {
-          params.page = '1'
+          params.page = "1"
           fetchUsers(params)
             .unwrap()
             .then((res) => {

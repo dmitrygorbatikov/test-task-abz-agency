@@ -28,7 +28,7 @@ const Positions = () => {
     fetchPositions(null)
       .unwrap()
 
-      .then((data ) => {
+      .then((data) => {
         dispatch(setPositions(data))
       })
       .catch((error) => {

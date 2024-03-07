@@ -25,7 +25,7 @@ const TokenDetails = () => {
       verifyToken({ id: +id })
         .unwrap()
 
-        .then((data ) => {
+        .then((data) => {
           setTokenData(data)
           setShow(true)
         })
@@ -51,7 +51,7 @@ const TokenDetails = () => {
       fetchTokenById({ id: +id })
         .unwrap()
 
-        .then((data ) => {
+        .then((data) => {
           dispatch(setDetailToken(data))
         })
         .catch((error) => {
